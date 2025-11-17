@@ -1,12 +1,12 @@
 import express from 'express';
 import QRCode from '../models/QRCode.js';
-import auth from '../middleware/authenticate.js';
+import { authenticate } from '../middleware/authenticate.js';
 import { response } from '../utils/helpers.js';
 
 const router = express.Router();
 
 // GET all QR codes
-router.get('/', auth, async (req, res) => {
+router.get('/', authenticate, async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 12;
@@ -29,7 +29,7 @@ router.get('/', auth, async (req, res) => {
 });
 
 // Save multiple QR codes
-router.post('/', auth, async (req, res) => {
+router.post('/', authenticate, async (req, res) => {
   try {
     if (!Array.isArray(req.body) || req.body.length === 0) {
       return response(res, 400, "Request body must be a non-empty array of QR codes.");
@@ -49,7 +49,7 @@ router.post('/', auth, async (req, res) => {
 });
 
 // Delete all QR codes for logged user
-router.delete('/', auth, async (req, res) => {
+router.delete('/', authenticate, async (req, res) => {
   try {
     await QRCode.deleteMany({ owner: req.user.id });
     return response(res, 200, "All QR codes have been deleted.");
@@ -60,7 +60,7 @@ router.delete('/', auth, async (req, res) => {
 });
 
 // Update QR code status
-router.patch('/:id/status', auth, async (req, res) => {
+router.patch('/:id/status', authenticate, async (req, res) => {
   try {
     const qr = await QRCode.findOne({ _id: req.params.id, owner: req.user.id });
 

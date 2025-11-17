@@ -51,7 +51,7 @@ router.delete('/', auth, async (req, res) => {
 // Update QR code status
 router.patch('/:id/status', auth, async (req, res) => {
   try {
-    const qr = await QRCode.findOne({ id: req.params.id });
+    const qr = await QRCode.findOne({ _id: req.params.id, owner: req.user.id });
 
     if (!qr) return res.status(404).json({ message: 'QR code not found' });
 

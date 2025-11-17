@@ -66,6 +66,11 @@ router.patch('/:id/status', authenticate, async (req, res) => {
 
     if (!qr) return response(res, 404, "QR code not found or you don't have permission to edit it.");
 
+    const newStatus = req.body.status;
+    if (newStatus !== 'active' && newStatus !== 'inactive') {
+      return response(res, 400, "Invalid status. Must be 'active' or 'inactive'.");
+    }
+
     qr.status = req.body.status;
     await qr.save();
 

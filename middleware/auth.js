@@ -8,8 +8,8 @@ export default async function auth(req, res, next) {
     if (!token)
       return res.status(401).json({ message: "No token" });
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'default_secret');
-    req.user = await User.findById(decoded.id).select("-password");
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded; // The decoded token now becomes the user object, containing the id
 
     next();
   } catch (e) {

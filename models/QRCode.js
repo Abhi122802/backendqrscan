@@ -4,7 +4,7 @@ const qrSchema = new mongoose.Schema(
   {
     code: { type: String, required: true, unique: true },
     status: { type: String, enum: ["active", "inactive"], default: "inactive" },
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
+    owner: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }
   },
   { timestamps: true }
 );

@@ -7,7 +7,7 @@ export const saveQRCode = async (req, res) => {
     const qr = await QRCodeModel.create({
       code,
       status,
-      userId: req.user.id
+      owner: req.user.id,
     });
 
     res.json({ message: "QR Saved!", qr });

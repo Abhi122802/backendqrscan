@@ -16,6 +16,11 @@ export const protect = async (req, res, next) => {
 
       // Get user from the token (select '-password' to exclude the password hash)
       req.user = await User.findById(decoded.id).select("-password");
+
+      if (!req.user) {
+        return response(res, 401, "Not authorized, user not found.");
+      }
+
       return next();
     } catch (error) {
       console.error("Authentication error:", error);

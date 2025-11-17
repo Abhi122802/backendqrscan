@@ -1,6 +1,6 @@
 import express from 'express';
 import QRCode from '../models/QRCode.js';
-import auth from '../middleware/auth.js';
+import auth from '../middleware/authenticate.js';
 import { response } from '../utils/helpers.js';
 
 const router = express.Router();

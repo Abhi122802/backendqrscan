@@ -36,7 +36,7 @@ export const loginUser = async (req, res) => {
       return response(res, 400, "Please provide email and password.");
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select('+password'); // Explicitly select password
     if (!user) return response(res, 404, "Invalid credentials."); // Use a generic message for security
 
     const valid = await bcrypt.compare(password, user.password);

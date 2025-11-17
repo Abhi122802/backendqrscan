@@ -23,7 +23,7 @@ export default async function connectDB() {
       throw new Error("Please define the MONGO_URI environment variable.");
     }
 
-    cached.promise = mongoose.connect(uri, { dbName: "qrapp", bufferCommands: false }).then((mongoose) => mongoose);
+    cached.promise = mongoose.connect(uri, { dbName: "firstapp", bufferCommands: false }).then((mongoose) => mongoose);
   }
 
   try {

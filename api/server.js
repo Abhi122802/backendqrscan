@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
-const connectDB = require("./config/db");
+const connectDB = require("../config/db");
 
 const app = express();
 app.use(cors());
@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
 // Routes
 app.use("/api/auth", qrcodeRoutes);
 
-const qrcodeRoutes = require("./routes/qrcodeRoutes");
+const qrcodeRoutes = require("../routes/qrcodeRoutes");
 app.use("/api/qrcodes", qrcodeRoutes);
 
 module.exports = app;

@@ -1,21 +1,5 @@
 import QRCodeModel from "../models/QRCode.js";
 
-export const saveQRCode = async (req, res) => {
-  try {
-    const { code, status } = req.body;
-
-    const qr = await QRCodeModel.create({
-      code,
-      status,
-      owner: req.user.id,
-    });
-
-    res.json({ message: "QR Saved!", qr });
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
-};
-
 export const verifyQRCode = async (req, res) => {
   try {
     const { code } = req.body;

@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import connectDB from "../config/db.js";
 import authRoutes from "../routes/auth.js";
 import qrcodeRoutes from "../routes/qrcodeRoutes.js";
+import { verifyQRCode } from "../controllers/qrcodeController.js";
 
 dotenv.config();
 const app = express();
@@ -24,5 +25,6 @@ app.get("/", (req, res) => {
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/qrcodes", qrcodeRoutes);
+app.post("/api/qrcodes/verify", verifyQRCode); // Add the verification route
 
 export default app;

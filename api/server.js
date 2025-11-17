@@ -14,6 +14,7 @@ app.get("/", (req, res) => {
 });
 
 // Routes
-app.use("/api/qrcode", require("../routes/qrcode"));
+const qrcodeRoutes = require('./routes/qrcodeRoutes');
+
 
 module.exports = app;

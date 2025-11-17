@@ -16,6 +16,11 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 
+// Root handler
+app.get("/", (req, res) => {
+  res.send("QR Backend is running!");
+});
+
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/qrcodes", qrcodeRoutes);

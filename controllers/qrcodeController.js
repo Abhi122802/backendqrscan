@@ -1,5 +1,6 @@
 import QRCode from "../models/QRCode.js";
 import { response } from "../utils/helpers.js";
+import connectDB from "../config/db.js";
 
 /**
  * @desc    Create new QR codes in bulk
@@ -8,6 +9,9 @@ import { response } from "../utils/helpers.js";
  */
 export const createQRCodes = async (req, res) => {
   try {
+    // Ensure DB connection
+    await connectDB();
+
     const qrCodesData = req.body; // Array of QR codes from frontend
     const userId = req.user._id; // from auth middleware
 

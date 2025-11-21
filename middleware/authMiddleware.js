@@ -11,6 +11,11 @@ export const protect = async (req, res, next) => {
       // Get token from header
       const token = req.headers.authorization.split(" ")[1];
 
+      // Ensure JWT_SECRET is available
+      if (!process.env.JWT_SECRET) {
+        throw new Error("JWT_SECRET is not defined in environment variables.");
+      }
+
       // Verify token
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 

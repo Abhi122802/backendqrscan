@@ -9,11 +9,6 @@ import { verifyQRCode } from "../controllers/qrcodeController.js";
 dotenv.config();
 const app = express();
 
-// It's a good practice to call connectDB inside an async function
-// or ensure your handlers wait for the connection.
-// For Vercel, the improved connectDB handles this caching.
-connectDB();
-
 app.use(cors());
 app.use(express.json());
 
@@ -22,9 +17,15 @@ app.get("/", (req, res) => {
   res.send("QR Backend is running!");
 });
 
+// Middleware to ensure DB connection for API routes
+const ensureDbConnection = async (req, res, next) => {
+  await connectDB();
+  next();
+};
+
 // Routes
-app.use("/api/auth", authRoutes);
-app.use("/api/qrcodes", qrcodeRoutes);
+app.use("/api/auth", ensureDbConnection, authRoutes);
+app.use("/api/qrcodes", ensureDbConnection, qrcodeRoutes);
 app.post("/api/qrcodes/verify", verifyQRCode); // Add the verification route
 
 export default app;

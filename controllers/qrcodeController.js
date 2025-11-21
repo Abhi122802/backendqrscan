@@ -1,21 +1,38 @@
-import QRCodeModel from "../models/QRCode.js";
+import QRCode from "../models/QRCode.js";
 import { response } from "../utils/helpers.js";
 
-export const verifyQRCode = async (req, res) => {
+/**
+ * @desc    Create new QR codes in bulk
+ * @route   POST /api/qrcodes
+ * @access  Private
+ */
+export const createQRCodes = async (req, res) => {
   try {
-    const { code } = req.body;
+    const qrCodesData = req.body; // Array of QR codes from frontend
+    const userId = req.user._id; // from auth middleware
 
-    if (!code) {
-      return response(res, 400, "QR code is required.");
+    if (!Array.isArray(qrCodesData) || qrCodesData.length === 0) {
+      return response(res, 400, "QR code data must be a non-empty array.");
     }
 
-    const qr = await QRCodeModel.findOne({ code });
+    // Add the createdBy field to each QR code object
+    const qrCodesToSave = qrCodesData.map((qr) => ({
+      qrId: qr.id,
+      url: qr.url,
+      status: qr.status || "inactive",
+      createdBy: userId,
+    }));
 
-    if (!qr) return response(res, 404, "QR code not found or is invalid.");
+    // Use insertMany for efficient bulk insertion
+    const createdQRCodes = await QRCode.insertMany(qrCodesToSave);
 
-    return response(res, 200, "QR code verified.", { status: qr.status });
-  } catch (e) {
-    console.error("Verify QR Code Error:", e);
-    return response(res, 500, "Server error during QR code verification.");
+    return response(
+      res,
+      201,
+      `${createdQRCodes.length} QR codes created successfully.`
+    );
+  } catch (error) {
+    console.error("Error creating QR codes:", error);
+    return response(res, 500, "Server error while creating QR codes.");
   }
 };

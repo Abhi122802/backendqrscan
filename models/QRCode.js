@@ -1,12 +1,28 @@
 import mongoose from "mongoose";
 
-const qrSchema = new mongoose.Schema(
+const qrCodeSchema = new mongoose.Schema(
   {
-    code: { type: String, required: true, unique: true },
-    status: { type: String, enum: ["active", "inactive"], default: "inactive" },
-    owner: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }
+    qrId: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    url: {
+      type: String, // This will store the data URL of the QR code image
+      required: true,
+    },
+    status: {
+      type: String,
+      enum: ["inactive", "active", "expired"],
+      default: "inactive",
+    },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   { timestamps: true }
 );
 
-export default mongoose.models.QRCode || mongoose.model("QRCode", qrSchema);
+export default mongoose.model("QRCode", qrCodeSchema);

@@ -1,5 +1,5 @@
 import dbConnect from "../../lib/dbConnect";
-import QRCode from "./QRCode";
+import QRCode from "./QRScan";
 import ScannedQR from "./ScannedQR";
 import { getSession } from "next-auth/react"; // Or your auth solution
 

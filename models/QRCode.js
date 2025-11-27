@@ -13,8 +13,8 @@ const qrCodeSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["inactive", "active", "expired"],
-      default: "inactive",
+      enum: ["deactivated", "active", "expired"],
+      default: "deactivated",
     },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,

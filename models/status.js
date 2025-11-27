@@ -14,10 +14,12 @@ export default async function handler(req, res) {
   // Replace this with your actual authentication logic.
   // For example, using next-auth:
   const session = await getSession({ req });
-  if (!session || !session.user) {
-    return res.status(401).json({ message: "Unauthorized" });
+  if (!session || !session.user || !session.user.id) {
+    return res.status(403).json({
+      message: "Forbidden. You must be logged in to perform this action.",
+    });
   }
-  const userId = session.user.id; // Assuming your session user has an 'id'
+  const userId = session.user.id;
 
   await dbConnect();
 

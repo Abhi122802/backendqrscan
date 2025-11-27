@@ -1,6 +1,6 @@
 import dbConnect from "../../../../lib/dbConnect";
 import QRCode from "../../../../models/QRCode";
-import QRScan from "../../../../models/QRScan";
+import ScannedQR from "../../../../models/ScannedQR";
 import { getSession } from "next-auth/react"; // Or your auth solution
 
 export default async function handler(req, res) {
@@ -43,7 +43,7 @@ export default async function handler(req, res) {
       await qrCode.save();
 
       // Create a log of the scan event
-      await QRScan.create({
+      await ScannedQR.create({
         qrCode: qrCode._id,
         scannedBy: userId,
         action: status, // 'activate' or 'deactivate'

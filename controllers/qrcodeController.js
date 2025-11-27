@@ -1,4 +1,5 @@
-import QRCode from "../models/QRCode.js";
+// Inside qrcodeController.js
+import QRCode from 'models/QRCode.js'; // or '/models/QRCode.js'
 import { response } from "../utils/helpers.js";
 import connectDB from "../config/db.js";
 

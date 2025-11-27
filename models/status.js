@@ -1,6 +1,6 @@
-import dbConnect from "../../../../lib/dbConnect";
-import QRCode from "../../../../models/QRCode";
-import ScannedQR from "../../../../models/ScannedQR";
+import dbConnect from "../../lib/dbConnect";
+import QRCode from "./QRCode";
+import ScannedQR from "./ScannedQR";
 import { getSession } from "next-auth/react"; // Or your auth solution
 
 export default async function handler(req, res) {

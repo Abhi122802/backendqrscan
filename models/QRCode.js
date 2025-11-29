@@ -22,5 +22,8 @@ const qrCodeSchema = new mongoose.Schema(
   }
 );
 
+// Add an index to the 'createdAt' field for efficient sorting.
+qrCodeSchema.index({ createdAt: -1 });
+
 // Mongoose will create a collection named 'qrcodes' from the model name 'QRCode'
 export default mongoose.models.QRCode || mongoose.model("QRCode", qrCodeSchema);

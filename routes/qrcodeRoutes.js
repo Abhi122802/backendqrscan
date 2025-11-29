@@ -5,6 +5,6 @@ import { protect } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 // POST /api/qrcodes - Create a new QR Code
-router.post("/", protect, createQRCode);
+router.post("/", createQRCode);
 
 export default router;

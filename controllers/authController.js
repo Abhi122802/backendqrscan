@@ -37,10 +37,10 @@ export const loginUser = async (req, res) => {
     }
 
     const user = await User.findOne({ email }).select('+password'); // Explicitly select password
-    if (!user) return response(res, 404, "Invalid credentials."); // Use a generic message for security
+    if (!user) return response(res, 401, "Invalid credentials."); // Use a generic message for security
 
     const valid = await bcrypt.compare(password, user.password);
-    if (!valid) return response(res, 400, "Invalid credentials.");
+    if (!valid) return response(res, 401, "Invalid credentials.");
 
     if (!process.env.JWT_SECRET) {
       throw new Error("JWT_SECRET is not defined in environment variables.");

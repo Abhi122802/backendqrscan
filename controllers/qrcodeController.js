@@ -16,8 +16,7 @@ export const createQRCode = async (req, res) => {
     const url = await qr.toDataURL(data);
 
     const qrCode = await QRCode.create({
-      user: req.user._id, // From protect middleware
-      id,
+      id, // The user field is now optional
       url,
     });
 

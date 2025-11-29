@@ -4,7 +4,7 @@ const qrCodeSchema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
+      required: false, // No longer require a user
       ref: "User",
     },
     id: {

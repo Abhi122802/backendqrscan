@@ -6,6 +6,7 @@ const qrScanSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "QRCode",
       required: true,
+      index: true,
     },
     status: {
       type: String,

@@ -26,3 +26,14 @@ export const createQRCode = async (req, res) => {
     return response(res, 500, "Server error during QR code creation.");
   }
 };
+
+export const getAllQRCodes = async (req, res) => {
+  try {
+    // Find all QR codes and sort them by creation date in descending order (newest first)
+    const qrCodes = await QRCode.find({}).sort({ createdAt: -1 });
+    return response(res, 200, "Successfully retrieved all QR codes.", { qrCodes });
+  } catch (error) {
+    console.error("Get All QR Codes Error:", error);
+    return response(res, 500, "Server error while fetching QR codes.");
+  }
+};

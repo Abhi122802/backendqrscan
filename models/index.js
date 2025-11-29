@@ -29,7 +29,12 @@ export default async function handler(req, res) {
           status: "scanned",
         });
 
-        res.status(201).json({ success: true, data: qrScan });
+        // Respond with the new scan data and include the original QR code's URL
+        res.status(201).json({
+          success: true,
+          data: qrScan,
+          url: qrCode.url, // Include the URL from the found QR code
+        });
       } catch (error) {
         res.status(400).json({ success: false, error: error.message });
       }

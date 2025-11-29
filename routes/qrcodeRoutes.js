@@ -1,13 +1,10 @@
 import express from "express";
-import {
-  createQRCodes,
-  verifyQRCode,
-} from "../controllers/qrcodeController.js";
+import { createQRCode } from "../controllers/qrcodeController.js";
 import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/", protect, createQRCodes);
-router.post("/verify", verifyQRCode); // Add this line to activate the route
+// POST /api/qrcodes - Create a new QR Code
+router.post("/", protect, createQRCode);
 
 export default router;

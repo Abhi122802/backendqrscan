@@ -72,3 +72,39 @@ export const handleScan = async (req, res) => {
     return res.status(500).send("<h1>Error: Could not process QR code</h1>");
   }
 };
+
+export const recordScan = async (req, res) => {
+  try {
+    // The frontend will send the full scanned URL, e.g., { "scannedUrl": "https://.../api/scan/some-id" }
+    const { scannedUrl } = req.body;
+
+    if (!scannedUrl) {
+      return response(res, 400, "Scanned URL is required.");
+    }
+
+    // Extract the ID from the URL. This makes the logic more robust.
+    const urlParts = scannedUrl.split('/');
+    const id = urlParts[urlParts.length - 1];
+
+    if (!id) {
+      return response(res, 400, "Could not extract ID from the scanned URL.");
+    }
+
+    // Find the QR code by its unique ID
+    const qrCode = await QRCode.findOne({ id });
+
+    if (!qrCode) {
+      return response(res, 404, "QR Code not found.");
+    }
+
+    // Record the scan event
+    await QRScan.create({ qrCode: qrCode._id });
+
+    // Return a success message and the final destination URL to the frontend
+    return response(res, 200, "Scan recorded successfully.", { destinationUrl: qrCode.url });
+
+  } catch (error) {
+    console.error("Record Scan Error:", error);
+    return response(res, 500, "Server error while recording scan.");
+  }
+};

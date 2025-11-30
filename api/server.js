@@ -8,7 +8,24 @@ import { handleScan, recordScan } from "../controllers/qrcodeController.js";
 
 dotenv.config();
 const app = express();
-app.use(cors());
+
+// --- CORS Configuration ---
+// Define the list of allowed origins (your frontend's URL)
+const allowedOrigins = ['https://qrstatus12.vercel.app'];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  optionsSuccessStatus: 200 // For legacy browser support
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Root handler

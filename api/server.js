@@ -3,7 +3,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "../config/db.js";
 import authRoutes from "../routes/auth.js"; 
-import qrcodeRoutes from "../routes/qrcodeRoutes.js";
+import qrcodeRoutes from "../routes/qrcodeRoutes.js"; // Handles /api/qrcodes/*
+import { handleScan } from "../controllers/qrcodeController.js"; // Import the scan handler
 
 dotenv.config();
 const app = express();
@@ -24,4 +25,8 @@ app.get("/", (req, res) => {
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/qrcodes", qrcodeRoutes);
+// This route specifically handles the scan event from a QR code.
+// It's separate from qrcodeRoutes because the URL is /api/scan/:id
+app.get("/api/scan/:id", handleScan);
+
 export default app;

@@ -42,8 +42,10 @@ export const loginUser = async (req, res) => {
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) return response(res, 401, "Invalid credentials.");
 
+    // Gracefully handle missing JWT_SECRET instead of crashing the server
     if (!process.env.JWT_SECRET) {
-      throw new Error("JWT_SECRET is not defined in environment variables.");
+      console.error("JWT_SECRET is not defined in environment variables.");
+      return response(res, 500, "Server configuration error: JWT secret is missing.");
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {

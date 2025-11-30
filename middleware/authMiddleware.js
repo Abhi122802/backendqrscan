@@ -13,7 +13,9 @@ export const protect = async (req, res, next) => {
 
       // Ensure JWT_SECRET is available
       if (!process.env.JWT_SECRET) {
-        throw new Error("JWT_SECRET is not defined in environment variables.");
+        console.error("JWT_SECRET is not defined in environment variables.");
+        // Return a 500 error because this is a server configuration issue
+        return response(res, 500, "Server configuration error: JWT secret is missing.");
       }
 
       // Verify token

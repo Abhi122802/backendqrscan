@@ -8,12 +8,6 @@ import { handleScan } from "../controllers/qrcodeController.js"; // Import the s
 
 dotenv.config();
 const app = express();
-
-// It's a good practice to call connectDB inside an async function
-// or ensure your handlers wait for the connection.
-// For Vercel, the improved connectDB handles this caching.
-connectDB();
-
 app.use(cors());
 app.use(express.json());
 
@@ -29,4 +23,19 @@ app.use("/api/qrcodes", qrcodeRoutes);
 // It's separate from qrcodeRoutes because the URL is /api/scan/:id
 app.get("/api/scan/:id", handleScan);
 
+const PORT = process.env.PORT || 5001;
+
+const startServer = async () => {
+  try {
+    await connectDB(); // Wait for the database connection to succeed
+    app.listen(PORT, () => {
+      console.log(`Server is running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to connect to the database", error);
+    process.exit(1); // Exit the process with an error code
+  }
+};
+
+startServer();
 export default app;
